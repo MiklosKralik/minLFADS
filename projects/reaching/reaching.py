@@ -23,26 +23,26 @@ def main():
     with open(data_path, 'rb') as f:
         data = pickle.load(f)
     X = data['X']
-    velocity = data['velocity']
+    position = data['velocity']
     conditions = data['conditions']
 
-    print('X: ', X.shape, 'Y: ', velocity.shape, 'conditions: ', conditions.shape)
+    print('X: ', X.shape, 'Y: ', position.shape, 'conditions: ', conditions.shape)
     cfg.model.input_size = X.shape[2] # set input size
 
     # split the data into training and test sets
     train_size = int(0.8 * len(X))
     X_train = X[:train_size]
     X_test = X[train_size:]
-    velocity_train = velocity[:train_size]
-    velocity_test = velocity[train_size:]
+    position_train = position[:train_size]
+    position_test = position[train_size:]
     conditions_train = conditions[:train_size]
     conditions_test = conditions[train_size:]
 
-    # normalize the velocity data
-    velocity_mean = velocity_train.mean(axis=0)
-    velocity_std = velocity_train.std(axis=0)
-    velocity_train = (velocity_train - velocity_mean) / velocity_std
-    velocity_test = (velocity_test - velocity_mean) / velocity_std
+    # normalize the position data
+    position_mean = position_train.mean(axis=0)
+    position_std = position_train.std(axis=0)
+    position_train = (position_train - position_mean) / position_std
+    position_test = (position_test - position_mean) / position_std
 
     # create the dataset
     train_dataset = ReachingDataset(X_train)
